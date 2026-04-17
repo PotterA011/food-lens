@@ -8,7 +8,8 @@ type Props = {
 };
 
 export function HomeScreen({ onCapture, onPick }: Props) {
-  const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -38,18 +39,32 @@ export function HomeScreen({ onCapture, onPick }: Props) {
       <div className="flex flex-col items-center">
         <button
           type="button"
-          onClick={() => fileRef.current?.click()}
+          onClick={() => cameraRef.current?.click()}
           className="bg-terracotta shadow-terracotta/30 active:bg-terracotta-dark flex h-28 w-28 items-center justify-center rounded-full text-white shadow-lg transition-colors"
           aria-label="Take a photo of your food"
         >
           <CameraIcon />
         </button>
         <p className="text-ink mt-4 text-[15px] font-medium">Snap it</p>
+        <button
+          type="button"
+          onClick={() => uploadRef.current?.click()}
+          className="text-terracotta mt-3 text-[14px] font-medium underline-offset-2 hover:underline"
+        >
+          Upload from photos
+        </button>
         <input
-          ref={fileRef}
+          ref={cameraRef}
           type="file"
           accept="image/*"
           capture="environment"
+          onChange={onFile}
+          className="hidden"
+        />
+        <input
+          ref={uploadRef}
+          type="file"
+          accept="image/*"
           onChange={onFile}
           className="hidden"
         />
