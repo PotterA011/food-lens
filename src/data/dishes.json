@@ -1,0 +1,692 @@
+[
+  {
+    "name": "Ambuyat",
+    "type": "Traditional food",
+    "origin": "Sarawak, Sabah and Labuan (Popular in Brunei)",
+    "description": "Replacement of rice. A staple food of the indigenous people of Sabah and Sarawak including Lundayeh/Lun Bawang."
+  },
+  {
+    "name": "Bee Hoon",
+    "type": "Rice noodles",
+    "origin": "Nationwide",
+    "description": "A thin form of rice noodles (rice vermicelli)."
+  },
+  {
+    "name": "Pulut",
+    "type": "Rice dumpling or rice cake",
+    "origin": "Nationwide",
+    "description": "It is made from sticky rice."
+  },
+  {
+    "name": "Ketupat",
+    "type": "Rice dumpling or rice cake",
+    "origin": "Nationwide",
+    "description": "It is made from rice packed inside a diamond-shaped container of woven palm leaf pouch."
+  },
+  {
+    "name": "Kway teow",
+    "type": "Rice noodles",
+    "origin": "Nationwide",
+    "description": "A type of noodle made from rice with sprawl-shaped."
+  },
+  {
+    "name": "Lemang",
+    "type": "Rice dish",
+    "origin": "Malay, Minangkabau and Orang Asli",
+    "description": "A traditional Malay food made of glutinous rice, coconut milk and salt, cooked in a hollowed bamboo stick lined with banana leaves in order to prevent the rice from sticking to the bamboo."
+  },
+  {
+    "name": "Mi",
+    "type": "Noodles",
+    "origin": "Nationwide",
+    "description": "Food made from unleavened dough which is rolled flat and cut, stretched or extruded, into long strips or strings."
+  },
+  {
+    "name": "Nasi putih",
+    "type": "Steamed rice",
+    "origin": "Nationwide",
+    "description": "Steamed rice as a staple food."
+  },
+  {
+    "name": "Main dishes",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Ayam bakar",
+    "type": "Grilled chicken",
+    "origin": "Nationwide",
+    "description": "Charcoal-grilled spiced chicken."
+  },
+  {
+    "name": "Ayam goreng",
+    "type": "Fried chicken",
+    "origin": "Nationwide",
+    "description": "Spiced chicken fried in coconut oil."
+  },
+  {
+    "name": "Ayam kecap",
+    "type": "Chicken",
+    "origin": "Southern Peninsular",
+    "description": "Chicken simmered or braised in sweet soy sauce."
+  },
+  {
+    "name": "Ayam percik",
+    "type": "Grilled chicken",
+    "origin": "East Coast Peninsular",
+    "description": "Grilled chicken with a spicy, curry-like sauce."
+  },
+  {
+    "name": "Ayam tandori",
+    "type": "Roasted chicken",
+    "origin": "Nationwide",
+    "description": "Roasted chicken marinated in yoghurt and spices in a tandoor."
+  },
+  {
+    "name": "Asam pedas fish",
+    "type": "Dish",
+    "origin": "Malacca",
+    "description": "—"
+  },
+  {
+    "name": "Bean Sprouts Chicken",
+    "type": "Dish",
+    "origin": "Ipoh, Perak",
+    "description": "Served with light soya sauce flavoured with oil."
+  },
+  {
+    "name": "Chai tow kway",
+    "type": "Common dish",
+    "origin": "Nationwide",
+    "description": "A variety of dim sum."
+  },
+  {
+    "name": "Chilli crab",
+    "type": "Seafood dish",
+    "origin": "Peninsular Malaysia",
+    "description": "Derived from Chinese cuisine."
+  },
+  {
+    "name": "Curry",
+    "type": "Dish",
+    "origin": "Nationwide",
+    "description": "Derived from Indian cuisine."
+  },
+  {
+    "name": "Fish ball",
+    "type": "Common food",
+    "origin": "Nationwide",
+    "description": "Small balls that were made from fish."
+  },
+  {
+    "name": "Gulai",
+    "type": "Curry",
+    "origin": "Nationwide",
+    "description": "Meat cooked in a thick, rich and spicy curry sauce."
+  },
+  {
+    "name": "Ikan Bakar",
+    "type": "Seafood dishes",
+    "origin": "Nationwide",
+    "description": "Usually eaten with sambal or shrimp paste."
+  },
+  {
+    "name": "Ikan goreng",
+    "type": "Fried fish",
+    "origin": "Nationwide",
+    "description": "Spiced fish/seafood deep-fried in coconut oil"
+  },
+  {
+    "name": "Kari ayam",
+    "type": "Curry dish",
+    "origin": "Nationwide",
+    "description": "A type of curry dish cooked using chicken and spices."
+  },
+  {
+    "name": "Kari kambing",
+    "type": "Curry dish",
+    "origin": "Peninsular Malaysia",
+    "description": "A type of curry dish cooked using lamb or mutton."
+  },
+  {
+    "name": "Kari kepala ikan",
+    "type": "Curry dish",
+    "origin": "West Coast Peninsular",
+    "description": "A type of curry dish cooked using head of a red snapper, influenced by Indian and Peranakan cuisine."
+  },
+  {
+    "name": "Begedil",
+    "type": "Fried dish",
+    "origin": "Southern Peninsular",
+    "description": "Derived from Javanese cuisine of Indonesia. Made of ground potatoes, minced meat, peeled and ground corn or tofu, or minced fish. Most common perkedel are made from mashed potatoes."
+  },
+  {
+    "name": "Rendang",
+    "type": "Meat dish",
+    "origin": "Nationwide",
+    "description": "Chunks of beef stewed in coconut milk and spicy thick curry gravy."
+  },
+  {
+    "name": "Telur pindang",
+    "type": "Egg dish",
+    "origin": "Southern Peninsular",
+    "description": "Hardboiled eggs boiled in water mixed with salt, shallot skins, teak leaf and other spices."
+  },
+  {
+    "name": "Tempoyak ikan patin",
+    "type": "Fish curry",
+    "origin": "Northern and East Coast of Peninsular",
+    "description": "Catfish served in sweet and spicy fermented durian curry."
+  },
+  {
+    "name": "Otak-otak",
+    "type": "Cake type made from fish meat and spices",
+    "origin": "Nationwide; Popular in Muar, Johor",
+    "description": "Traditionally served steamed, wrapped inside a banana leaf or grilled in coconut leaves."
+  },
+  {
+    "name": "Oyster omelette",
+    "type": "Seafood dish",
+    "origin": "Asia",
+    "description": "The dish consists of an omelette with a filling primarily composed of small oysters."
+  },
+  {
+    "name": "Sata",
+    "type": "Traditional dish",
+    "origin": "Terengganu",
+    "description": "Consisting of spiced fish meat wrapped in banana leaves and cooked on a grill."
+  },
+  {
+    "name": "Satay",
+    "type": "Dish",
+    "origin": "Nationwide",
+    "description": "Can be found throughout all the states of Malaysia in restaurants and on the street."
+  },
+  {
+    "name": "Satay celup",
+    "type": "Dish",
+    "origin": "Malacca, Penang",
+    "description": "Popular in Malacca and Penang."
+  },
+  {
+    "name": "Soups",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Sop ekor",
+    "type": "Meat soup",
+    "origin": "Peninsular",
+    "description": ""
+  },
+  {
+    "name": "Sup Kambing",
+    "type": "Soup",
+    "origin": "Nationwide",
+    "description": "Can be found all over Malaysia."
+  },
+  {
+    "name": "Sayur Lodeh",
+    "type": "Soup",
+    "origin": "Selangor and Johor",
+    "description": "Vegetable soup prepared in coconut milk"
+  },
+  {
+    "name": "Yong tau foo",
+    "type": "Soup",
+    "origin": "Nationwide",
+    "description": "A type of Chinese soup dish."
+  },
+  {
+    "name": "Ayam pansuh",
+    "type": "Soup",
+    "origin": "Sarawak",
+    "description": "A chicken soup cooked in bamboo along with seasonings. A dish popular in Sarawak, Malaysia."
+  },
+  {
+    "name": "Bak kut teh",
+    "type": "Soup",
+    "origin": "Klang, Selangor",
+    "description": "A soup that consists of meaty pork ribs in a complex broth of herbs and spices, boiled together with pork bones for hours."
+  },
+  {
+    "name": "Breads",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Apam",
+    "type": "Pancake",
+    "origin": "Nationwide",
+    "description": "A steamed dough made of rice flour, coconut milk, yeast and palm sugar, usually served with grated coconut."
+  },
+  {
+    "name": "Chapathi",
+    "type": "Flatbread",
+    "origin": "Peninsular",
+    "description": "A thin, unleavened flat bread originated from India, brought by the immigrants to the country early in the 19th century. Usually served with beef or mutton curry."
+  },
+  {
+    "name": "Dosai",
+    "type": "Fermented Crepe or Pancake",
+    "origin": "Peninsular",
+    "description": "Derived from Tamil Indian cuisine."
+  },
+  {
+    "name": "Kaya toast",
+    "type": "Toast",
+    "origin": "Nationwide",
+    "description": "Kaya toast is prepared with kaya (coconut jam)."
+  },
+  {
+    "name": "Murtabak",
+    "type": "Pancake",
+    "origin": "Nationwide",
+    "description": "Derived from Middle East and also from Indian cuisine."
+  },
+  {
+    "name": "Naan",
+    "type": "Flatbread",
+    "origin": "Nationwide",
+    "description": "A leavened, oven-baked flatbread. It is usually eaten with an array of sauces such as chutney and curries."
+  },
+  {
+    "name": "Ramly Burger",
+    "type": "Hamburger",
+    "origin": "Nationwide",
+    "description": "Can be found all over Malaysia but mainly in Selangor and Kuala Lumpur"
+  },
+  {
+    "name": "Roti canai",
+    "type": "Flatbread",
+    "origin": "Nationwide",
+    "description": "Derived from Indian cuisine."
+  },
+  {
+    "name": "Roti Jala",
+    "type": "Pancakes",
+    "origin": "Nationwide",
+    "description": "Served with curry.One of the famous food in Malaysia."
+  },
+  {
+    "name": "Roti John",
+    "type": "Sandwich",
+    "origin": "Nationwide",
+    "description": "A popular Malay sandwich in Malaysia and Singapore."
+  },
+  {
+    "name": "Salads",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Acar",
+    "type": "Condiment and Salad",
+    "origin": "Nationwide",
+    "description": "A type of a Pickling that can be found in Indonesia, Malaysia, and Singapore."
+  },
+  {
+    "name": "Kinilaw",
+    "type": "Salad",
+    "origin": "Sabah",
+    "description": "A cooking process that relies on vinegar to denature the ingredients, similar to ceviche. Usually used to prepare raw seafood. It can also be used to prepare lightly cooked meat or vegetables."
+  },
+  {
+    "name": "Pasembur",
+    "type": "Salad",
+    "origin": "Penang",
+    "description": "A type of Indian salad."
+  },
+  {
+    "name": "Popiah",
+    "type": "Spring roll",
+    "origin": "Nationwide",
+    "description": "Can be found on street vendors around Malaysia."
+  },
+  {
+    "name": "Rojak",
+    "type": "Salad",
+    "origin": "Peninsular",
+    "description": "A traditional fruit and vegetable salad dish commonly found in Indonesia, Malaysia and Singapore."
+  },
+  {
+    "name": "Ulam (salad)",
+    "type": "Salad",
+    "origin": "Nationwide",
+    "description": "Can be eaten simply as it is, or with cucumber, cabbage and eggplant."
+  },
+  {
+    "name": "Urap",
+    "type": "Salad dish",
+    "origin": "Southern Peninsular",
+    "description": "A salad dish of steamed vegetables mixed with seasoned and spiced grated coconut for dressing."
+  },
+  {
+    "name": "Yusheng/Yee Sang",
+    "type": "Salad",
+    "origin": "Nationwide",
+    "description": "Consumed during Chinese New Year."
+  },
+  {
+    "name": "Noodle dishes",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Pan mee",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "Derived from Hakka cuisine."
+  },
+  {
+    "name": "Char kway teow",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "A popular noodle dish in Malaysia and Singapore that is made from flat rice noodles."
+  },
+  {
+    "name": "Curry Mee",
+    "type": "Noodle dish",
+    "origin": "Malaysia",
+    "description": "Usually made up of thin yellow egg noodles or/and string thin mee-hoon (rice vermicelli) with spicy curry soup, chilli/sambal, coconut milk, and a choice of dried tofu, prawns, cuttlefish, chicken, egg and mint leaves."
+  },
+  {
+    "name": "Duck soup noodles",
+    "type": "Noodle soup",
+    "origin": "Penang, Malaysia",
+    "description": "Consists of ingredients such as duck meat in hot soup with mixed herbs and slim white noodles known as mee-sua."
+  },
+  {
+    "name": "Hokkien mee",
+    "type": "Fried noodles",
+    "origin": "Nationwide",
+    "description": "Served in many Southeast Asian countries (mostly Malaysia and Singapore) and was brought there by immigrants from the Fujian in southeastern China."
+  },
+  {
+    "name": "Laksa",
+    "type": "Noodle soup",
+    "origin": "Penang, Perlis, Kedah, (Ipoh and Kuala Kangsar in Perak), Johor, Sarawak and Kelantan",
+    "description": "The famous one is the Penang laksa."
+  },
+  {
+    "name": "Laksa Sarawak [ms]",
+    "type": "Noodle soup",
+    "origin": "Sarawak",
+    "description": "A very popular dish in Sarawak, Malaysia."
+  },
+  {
+    "name": "Lor mee",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "One of Chinese-inspired noodle dish."
+  },
+  {
+    "name": "Maggi goreng",
+    "type": "Instant noodles",
+    "origin": "Malaysia",
+    "description": "A type of instant noodles that are popular in Malaysia."
+  },
+  {
+    "name": "Mee Bandung Muar",
+    "type": "Noodle dish",
+    "origin": "Muar, Johor",
+    "description": "Traditional noodle cuisine from Muar."
+  },
+  {
+    "name": "Mee goreng",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "Derived from Chinese cuisine."
+  },
+  {
+    "name": "Mee hailam",
+    "type": "—",
+    "origin": "—",
+    "description": "—"
+  },
+  {
+    "name": "Mee Kolok",
+    "type": "Noodle dish",
+    "origin": "Kuching, Sarawak",
+    "description": "A type of noodles popular in Kuching, Sarawak."
+  },
+  {
+    "name": "Mee pok",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "A type of Chinese noodle."
+  },
+  {
+    "name": "Mee rebus",
+    "type": "Boiled noodle dish",
+    "origin": "Malaysia",
+    "description": "A popular noodle dish in Malaysia and Singapore."
+  },
+  {
+    "name": "Mee siam",
+    "type": "Siamese noodle",
+    "origin": "Peninsular Malaysia",
+    "description": "A type of dish of thin rice noodles."
+  },
+  {
+    "name": "Mee sup",
+    "type": "—",
+    "origin": "—",
+    "description": "—"
+  },
+  {
+    "name": "Mihun sup",
+    "type": "—",
+    "origin": "—",
+    "description": "—"
+  },
+  {
+    "name": "Soto",
+    "type": "Traditional noodle soup dish",
+    "origin": "Nationwide",
+    "description": "One of the popular noodle dish both in Indonesia and Malaysia."
+  },
+  {
+    "name": "Wonton noodles",
+    "type": "Noodle dish",
+    "origin": "Nationwide",
+    "description": "Derived from Cantonese cuisine."
+  },
+  {
+    "name": "Rice dishes",
+    "type": "",
+    "origin": "",
+    "description": ""
+  },
+  {
+    "name": "Name",
+    "type": "Type",
+    "origin": "Region",
+    "description": "Description"
+  },
+  {
+    "name": "Banana Leaf Rice",
+    "type": "Rice dish",
+    "origin": "Peninsular Malaysia",
+    "description": "Derived from Indian cuisine."
+  },
+  {
+    "name": "Briyani",
+    "type": "Rice dish",
+    "origin": "Peninsular Malaysia",
+    "description": "Derived from Indian cuisine, also there is a famous local version in Batu Pahat, Johor."
+  },
+  {
+    "name": "Bubur Ashura",
+    "type": "Porridge",
+    "origin": "Peninsular Malaysia",
+    "description": "Type of porridge made from grains."
+  },
+  {
+    "name": "Bubur ayam",
+    "type": "Porridge",
+    "origin": "Nationwide",
+    "description": "Rice porridge"
+  },
+  {
+    "name": "Bubur Pedas [id]",
+    "type": "Porridge",
+    "origin": "Sarawak",
+    "description": "Type of porridge made from finely ground sauteed rice and grated coconut. It is popular during Ramadan."
+  },
+  {
+    "name": "Claypot chicken rice [es; fr; nl; th]",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "Usually served with Chinese sausage."
+  },
+  {
+    "name": "Hainanese Chicken Rice",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "Derived by Hainanese immigrants."
+  },
+  {
+    "name": "Nasi Ambeng",
+    "type": "Rice dish",
+    "origin": "Selangor, Johor",
+    "description": "A popular west coast Malaysian Javanese dish, eaten during special occasions."
+  },
+  {
+    "name": "Economy rice",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "A rice dish is eaten with a sort of protein and vegetables."
+  },
+  {
+    "name": "Nasi Dagang",
+    "type": "Rice dish",
+    "origin": "Kelantan, Terengganu",
+    "description": "A type of dish consisting of rice steamed in coconut milk, fish curry and extra ingredients such as fried shaved coconut, hard-boiled eggs and vegetable pickles."
+  },
+  {
+    "name": "Nasi daging",
+    "type": "Rice dish",
+    "origin": "Kedah",
+    "description": ""
+  },
+  {
+    "name": "Nasi Goreng",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "A type of dish popular in Indonesia and Malaysia."
+  },
+  {
+    "name": "Nasi goreng pattaya",
+    "type": "Rice dish",
+    "origin": "Peninsular Malaysia",
+    "description": "A Malaysian dish made by covering or wrapping chicken fried rice, in fried egg. It is often served with chili sauce and cucumber. The name comes from Pattaya, Thailand."
+  },
+  {
+    "name": "Nasi Hujan Panas",
+    "type": "Rice dish",
+    "origin": "East Coast Peninsular",
+    "description": "A rainbow rice dish is eaten with a sort of protein and vegetables."
+  },
+  {
+    "name": "Nasi Itik",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "Made of either braised or roasted duck and plain white rice."
+  },
+  {
+    "name": "Nasi Kandar",
+    "type": "Rice dish",
+    "origin": "Penang",
+    "description": "A popular northern Malaysian dish, which originates from Penang."
+  },
+  {
+    "name": "Nasi kebuli",
+    "type": "Rice dish",
+    "origin": "Pahang",
+    "description": "Steamed rice dish cooked in goat broth, milk, and ghee. Usually served during Mawlid."
+  },
+  {
+    "name": "Nasi kerabu",
+    "type": "Rice dish",
+    "origin": "Kelantan, Terengganu",
+    "description": "A type of Nasi ulam, in which blue-colored rice is eaten with dried fish or fried chicken, crackers, pickles and other salads."
+  },
+  {
+    "name": "Nasi Kuning",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "A popular Malaysian dish usually served during special occasions."
+  },
+  {
+    "name": "Nasi Lemak",
+    "type": "Rice dish",
+    "origin": "Nationwide",
+    "description": "A fragrant rice dish cooked in coconut milk and \"pandan\" leaf commonly found in Malaysia, where it is considered the national dish of Malaysia.[1]"
+  },
+  {
+    "name": "Nasi minyak",
+    "type": "Rice dish",
+    "origin": "Terengganu",
+    "description": "A popular east coast Malaysian dish usually served during weddings."
+  },
+  {
+    "name": "Nasi paprik",
+    "type": "Rice dish",
+    "origin": "—",
+    "description": "—"
+  },
+  {
+    "name": "Nasi Tomato",
+    "type": "Rice dish",
+    "origin": "West Coast Peninsular",
+    "description": "A popular west coast Malaysian dish, usually eaten with Ayam Masak Merah."
+  },
+  {
+    "name": "Nasi Tumpang",
+    "type": "Rice dish",
+    "origin": "Kelantan",
+    "description": "A popular east coast Malaysian dish, which originates from Kelantan."
+  },
+  {
+    "name": "Nasi ulam",
+    "type": "Rice dish",
+    "origin": "Kelantan",
+    "description": "A steamed rice dish mixed with various herbs, vegetables, and spices and accompanied by various side dishes"
+  }
+]
