@@ -7,7 +7,7 @@ An installable iOS web app for identifying Malaysian dishes. Type a name (live t
 - Vite + React 19 + TypeScript
 - Tailwind CSS v4 (`@tailwindcss/vite`)
 - Static Web App Manifest (installable, no service worker)
-- Vercel serverless function at [api/recognize.ts](api/recognize.ts) proxying OpenRouter
+- Node + Express production server at [server.mjs](server.mjs) for Render deployment
 - Data sourced from [data/Malaysian Food.xlsx](data/Malaysian%20Food.xlsx), converted once to [src/data/dishes.json](src/data/dishes.json)
 
 ## Project layout
@@ -60,13 +60,22 @@ npm run dev:full
 
 Both commands print a LAN URL (`http://192.168.x.x:...`). Open it in iPhone Safari on the same Wi-Fi, then **Share → Add to Home Screen** to install. The camera uses `<input capture="environment">`, so iOS opens the real camera without needing HTTPS during LAN development.
 
-## Deploy to Vercel
+## Deploy to Render (Web Service)
 
-1. Import `PotterA011/food-lens` on [vercel.com/new](https://vercel.com/new). The framework is auto-detected as Vite.
-2. Under **Settings → Environment Variables**, add:
-   - `OPENROUTER_API_KEY` (your OpenRouter key)
-   - `VISION_MODEL` (e.g. `openai/gpt-4o`)
-3. Deploy. Every push to `main` auto-deploys.
+Use a **Web Service** (not Static Site) because `/api/recognize` runs on the same server.
+
+Render settings:
+- **Build Command:** `npm run build`
+- **Start Command:** `npm start`
+
+Environment variables:
+- `OPENROUTER_API_KEY` = your OpenRouter key
+- `VISION_MODEL` = `openai/gpt-4o` (or Gemini Flash slug)
+- Optional: `OPENROUTER_TIMEOUT_MS` = `20000`
+
+Render provides `PORT` automatically; `server.mjs` reads it and serves both:
+- Frontend static build from `dist/`
+- API route at `/api/recognize`
 
 ## How recognition works
 
