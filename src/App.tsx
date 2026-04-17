@@ -2,13 +2,16 @@ import { useState } from "react";
 import { HomeScreen } from "./components/HomeScreen";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { ResultCard } from "./components/ResultCard";
+import { ErrorScreen } from "./components/ErrorScreen";
 import { recognize } from "./lib/recognize";
 import type { Dish } from "./lib/dish";
 
 type View =
   | { kind: "home" }
   | { kind: "loading"; preview: string }
-  | { kind: "result"; dish: Dish; photo?: string };
+  | { kind: "result"; dish: Dish; photo?: string }
+  | { kind: "not_food"; photo: string }
+  | { kind: "error"; message: string; photo?: string };
 
 export function App() {
   const [view, setView] = useState<View>({ kind: "home" });
@@ -16,8 +19,14 @@ export function App() {
   async function onCapture(file: File) {
     const preview = URL.createObjectURL(file);
     setView({ kind: "loading", preview });
-    const dish = await recognize(file);
-    setView({ kind: "result", dish, photo: preview });
+    const result = await recognize(file);
+    if (result.kind === "dish") {
+      setView({ kind: "result", dish: result.dish, photo: preview });
+    } else if (result.kind === "not_food") {
+      setView({ kind: "not_food", photo: preview });
+    } else {
+      setView({ kind: "error", message: result.message, photo: preview });
+    }
   }
 
   function onPick(dish: Dish) {
@@ -34,6 +43,17 @@ export function App() {
       {view.kind === "loading" && <LoadingScreen preview={view.preview} />}
       {view.kind === "result" && (
         <ResultCard dish={view.dish} photo={view.photo} onReset={reset} />
+      )}
+      {view.kind === "not_food" && (
+        <ErrorScreen variant="not_food" photo={view.photo} onReset={reset} />
+      )}
+      {view.kind === "error" && (
+        <ErrorScreen
+          variant="error"
+          photo={view.photo}
+          message={view.message}
+          onReset={reset}
+        />
       )}
     </main>
   );
