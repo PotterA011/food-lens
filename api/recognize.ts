@@ -1,7 +1,6 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 import dishes from "../src/data/dishes.json";
 import { findDish, type Dish } from "./_lib/match";
-
-export const config = { runtime: "nodejs" };
 
 const SCHEMA = {
   name: "food_identification",
@@ -30,33 +29,71 @@ type VisionOutput = {
   confidence: "low" | "medium" | "high";
 };
 
-export default async function handler(req: Request): Promise<Response> {
+type RecognizeRequestBody = {
+  imageBase64?: string;
+  mimeType?: string;
+};
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse,
+): Promise<void> {
+  const startedAt = Date.now();
+  const requestId = crypto.randomUUID().slice(0, 8);
+  const log = (event: string, extra?: Record<string, unknown>) => {
+    const elapsedMs = Date.now() - startedAt;
+    console.info(`[recognize:${requestId}] ${event}`, {
+      elapsedMs,
+      ...extra,
+    });
+  };
+
+  log("start", { method: req.method });
+
   if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+    log("reject_method");
+    res.status(405).send("Method Not Allowed");
+    return;
   }
 
-  let file: Blob | null = null;
+  const body = (req.body ?? {}) as RecognizeRequestBody | string;
+  let parsedBody: RecognizeRequestBody;
   try {
-    const form = await req.formData();
-    const entry = form.get("image");
-    if (entry instanceof Blob) file = entry;
+    parsedBody = typeof body === "string" ? JSON.parse(body) : body;
   } catch {
-    return Response.json({ error: "bad_request" }, { status: 400 });
+    log("bad_json_body");
+    res.status(400).json({ error: "bad_request" });
+    return;
   }
-  if (!file) return Response.json({ error: "no_image" }, { status: 400 });
+  const imageBase64 = parsedBody.imageBase64;
+  const mimeType = parsedBody.mimeType || "image/jpeg";
+
+  if (!imageBase64 || typeof imageBase64 !== "string") {
+    log("no_image_base64");
+    res.status(400).json({ error: "no_image" });
+    return;
+  }
+  log("image_received", {
+    mime: mimeType,
+    base64Length: imageBase64.length,
+  });
 
   const key = process.env.OPENROUTER_API_KEY;
   if (!key) {
-    return Response.json({ error: "server_misconfigured" }, { status: 500 });
+    log("missing_key");
+    res.status(500).json({ error: "server_misconfigured" });
+    return;
   }
   const model = process.env.VISION_MODEL ?? "openai/gpt-4o";
+  const upstreamTimeoutMs = Number(process.env.OPENROUTER_TIMEOUT_MS ?? 20000);
+  log("model_selected", { model, upstreamTimeoutMs });
 
-  const b64 = Buffer.from(await file.arrayBuffer()).toString("base64");
-  const dataUrl = `data:${file.type || "image/jpeg"};base64,${b64}`;
+  const dataUrl = `data:${mimeType};base64,${imageBase64}`;
+  log("upstream_request_start");
 
-  const upstream = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
+  let upstream: Response;
+  try {
+    upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${key}`,
@@ -75,14 +112,25 @@ export default async function handler(req: Request): Promise<Response> {
         ],
         response_format: { type: "json_schema", json_schema: SCHEMA },
       }),
-    },
-  );
+      signal: AbortSignal.timeout(upstreamTimeoutMs),
+    });
+  } catch (error) {
+    const reason = error instanceof Error ? error.name : "unknown_error";
+    const isTimeout = reason === "TimeoutError" || reason === "AbortError";
+    log("upstream_request_failed", { reason, isTimeout });
+    res
+      .status(504)
+      .json({ error: isTimeout ? "upstream_timeout" : "upstream_network_error" });
+    return;
+  }
 
   if (!upstream.ok) {
     const detail = await upstream.text().catch(() => "");
-    console.error("OpenRouter error", upstream.status, detail);
-    return Response.json({ error: "upstream_error" }, { status: 502 });
+    log("upstream_non_ok", { status: upstream.status, detail: detail.slice(0, 400) });
+    res.status(502).json({ error: "upstream_error" });
+    return;
   }
+  log("upstream_ok");
 
   const raw = (await upstream.json()) as {
     choices?: { message?: { content?: string } }[];
@@ -92,12 +140,15 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     parsed = typeof content === "string" ? JSON.parse(content) : content;
   } catch {
-    console.error("Bad JSON from model", content);
-    return Response.json({ error: "bad_model_output" }, { status: 502 });
+    log("bad_model_json", { contentType: typeof content });
+    res.status(502).json({ error: "bad_model_output" });
+    return;
   }
 
   if (!parsed?.isFood) {
-    return Response.json({ error: "not_food" }, { status: 200 });
+    log("not_food");
+    res.status(200).json({ error: "not_food" });
+    return;
   }
 
   const match = findDish(parsed.name, dishes as Dish[]);
@@ -108,5 +159,6 @@ export default async function handler(req: Request): Promise<Response> {
     description: parsed.shortDescription,
   };
 
-  return Response.json({ dish });
+  log("success", { matchedDataset: Boolean(match), returnedName: dish.name });
+  res.status(200).json({ dish });
 }

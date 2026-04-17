@@ -14,12 +14,18 @@ export async function recognize(image: File): Promise<RecognizeResult> {
     blob = image;
   }
 
-  const form = new FormData();
-  form.append("image", blob, "photo.jpg");
+  const imageBase64 = await blobToBase64(blob);
 
   let res: Response;
   try {
-    res = await fetch("/api/recognize", { method: "POST", body: form });
+    res = await fetch("/api/recognize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        imageBase64,
+        mimeType: blob.type || "image/jpeg",
+      }),
+    });
   } catch (err) {
     return { kind: "error", message: (err as Error).message || "Network error" };
   }
@@ -35,4 +41,15 @@ export async function recognize(image: File): Promise<RecognizeResult> {
   }
   if (data.dish) return { kind: "dish", dish: data.dish };
   return { kind: "error", message: "Unexpected response" };
+}
+
+async function blobToBase64(blob: Blob): Promise<string> {
+  const buffer = await blob.arrayBuffer();
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
 }
