@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import "../server/env.mjs";
 import { getPool } from "../server/db.mjs";
 
 const __filename = fileURLToPath(import.meta.url);

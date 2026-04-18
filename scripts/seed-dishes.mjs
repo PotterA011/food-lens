@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import "../server/env.mjs";
 import { getPool, toVectorLiteral } from "../server/db.mjs";
 import { embedText, dishEmbeddingText } from "../server/embeddings.mjs";
 import { slugify } from "../server/slug.mjs";

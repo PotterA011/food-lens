@@ -129,6 +129,10 @@ export function mountAuthRoutes(app) {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const secret = getSecret();
     const redirectUri = authRedirectUri();
+    if (!hasDb()) {
+      console.warn("[auth] DATABASE_URL is not configured; Google auth is disabled");
+      return res.status(503).json({ error: "db_unavailable" });
+    }
     if (!clientId || !secret || !redirectUri) {
       return res.status(500).json({ error: "oauth_not_configured" });
     }
@@ -153,6 +157,10 @@ export function mountAuthRoutes(app) {
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     const secret = getSecret();
     const redirectUri = authRedirectUri();
+    if (!hasDb()) {
+      console.warn("[auth] DATABASE_URL is not configured; Google auth callback cannot create a session");
+      return res.status(503).send("db_unavailable");
+    }
     if (!clientId || !clientSecret || !secret || !redirectUri) {
       return res.status(500).send("oauth_not_configured");
     }
@@ -233,7 +241,15 @@ export function mountAuthRoutes(app) {
       return res.status(500).send("user_upsert_failed");
     }
 
-    const { id: sessionId } = await createSession(userId);
+    let sessionId;
+    try {
+      const session = await createSession(userId);
+      sessionId = session.id;
+    } catch (err) {
+      console.error("[auth] session create failed", err);
+      return res.status(500).send("session_create_failed");
+    }
+
     setCookie(res, COOKIE_NAME, sign(sessionId, secret), {
       maxAgeSeconds: SESSION_TTL_DAYS * 24 * 3600,
     });
