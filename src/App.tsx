@@ -3,6 +3,8 @@ import { HomeScreen } from "./components/HomeScreen";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { ResultCard } from "./components/ResultCard";
 import { ErrorScreen } from "./components/ErrorScreen";
+import { AccountMenu } from "./components/AccountMenu";
+import { SavedPage } from "./pages/SavedPage";
 import { recognize } from "./lib/recognize";
 import type { Dish } from "./lib/dish";
 
@@ -11,7 +13,8 @@ type View =
   | { kind: "loading"; preview: string }
   | { kind: "result"; dish: Dish; photo?: string }
   | { kind: "not_food"; photo: string }
-  | { kind: "error"; message: string; photo?: string };
+  | { kind: "error"; message: string; photo?: string }
+  | { kind: "saved" };
 
 export function App() {
   const [view, setView] = useState<View>({ kind: "home" });
@@ -36,13 +39,25 @@ export function App() {
   const reset = () => setView({ kind: "home" });
 
   return (
-    <main className="mx-auto flex min-h-full w-full max-w-md flex-col px-5 pt-10 pb-12">
+    <main className="mx-auto flex min-h-full w-full max-w-md flex-col px-5 pt-5 pb-12">
+      <div className="mb-4 flex items-center justify-end">
+        <AccountMenu onOpenSaved={() => setView({ kind: "saved" })} />
+      </div>
+
       {view.kind === "home" && (
         <HomeScreen onCapture={onCapture} onPick={onPick} />
       )}
       {view.kind === "loading" && <LoadingScreen preview={view.preview} />}
       {view.kind === "result" && (
-        <ResultCard dish={view.dish} photo={view.photo} onReset={reset} />
+        <ResultCard
+          key={view.dish.id ?? view.dish.name}
+          dish={view.dish}
+          photo={view.photo}
+          onReset={reset}
+          onDishChanged={(next) =>
+            setView({ kind: "result", dish: next, photo: view.photo })
+          }
+        />
       )}
       {view.kind === "not_food" && (
         <ErrorScreen variant="not_food" photo={view.photo} onReset={reset} />
@@ -53,6 +68,12 @@ export function App() {
           photo={view.photo}
           message={view.message}
           onReset={reset}
+        />
+      )}
+      {view.kind === "saved" && (
+        <SavedPage
+          onPick={(dish) => setView({ kind: "result", dish })}
+          onBack={reset}
         />
       )}
     </main>

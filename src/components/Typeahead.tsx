@@ -1,14 +1,47 @@
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Dish } from "../lib/dish";
-import { search } from "../lib/search";
+import { search as staticSearch } from "../lib/search";
+import { searchDishes } from "../lib/api";
 
 type Props = { onPick: (dish: Dish) => void };
 
 export function Typeahead({ onPick }: Props) {
   const [q, setQ] = useState("");
+  const [results, setResults] = useState<Dish[]>([]);
   const [cursor, setCursor] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const debounceRef = useRef<number | null>(null);
+  const reqRef = useRef(0);
 
-  const results = useMemo(() => search(q), [q]);
+  useEffect(() => {
+    if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    const query = q.trim();
+    if (!query) {
+      setResults([]);
+      setLoading(false);
+      return;
+    }
+
+    setResults(staticSearch(query));
+    setCursor(0);
+
+    if (query.length < 2) return;
+
+    setLoading(true);
+    const reqId = ++reqRef.current;
+    debounceRef.current = window.setTimeout(async () => {
+      const remote = await searchDishes(query).catch(() => [] as Dish[]);
+      if (reqId !== reqRef.current) return;
+      if (remote.length > 0) {
+        setResults(remote.slice(0, 8));
+      }
+      setLoading(false);
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    };
+  }, [q]);
 
   function onKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!results.length) return;
@@ -42,17 +75,22 @@ export function Typeahead({ onPick }: Props) {
           spellCheck={false}
           className="text-ink placeholder:text-muted focus:ring-terracotta/40 h-14 w-full rounded-2xl bg-white pr-5 pl-12 text-[17px] shadow-[0_10px_30px_-12px_rgba(43,38,32,0.25)] outline-none focus:ring-2"
         />
+        {loading && (
+          <span className="text-muted pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-[12px]">
+            …
+          </span>
+        )}
       </div>
 
       {q.trim() && (
         <ul className="mt-3 overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_-12px_rgba(43,38,32,0.2)]">
           {results.length === 0 ? (
             <li className="text-muted px-5 py-4 text-[15px]">
-              No match. Try snapping a photo instead.
+              {loading ? "Searching…" : "No match. Try snapping a photo instead."}
             </li>
           ) : (
             results.map((d, i) => (
-              <li key={d.name}>
+              <li key={(d.id ?? "") + d.name}>
                 <button
                   type="button"
                   onMouseEnter={() => setCursor(i)}

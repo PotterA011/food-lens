@@ -1,8 +1,94 @@
+import { useEffect, useState } from "react";
 import type { Dish } from "../lib/dish";
+import {
+  fetchDish,
+  saveDish,
+  unsaveDish,
+  correctDish,
+  type DishDetails,
+} from "../lib/api";
+import { useAuth } from "../contexts/AuthContext";
+import { CorrectDialog } from "./CorrectDialog";
 
-type Props = { dish: Dish; photo?: string; onReset: () => void };
+type Props = {
+  dish: Dish;
+  photo?: string;
+  onReset: () => void;
+  onDishChanged?: (dish: Dish) => void;
+  initialIngredients?: string[] | null;
+  initialHistory?: string | null;
+  initialSaved?: boolean;
+};
 
-export function ResultCard({ dish, photo, onReset }: Props) {
+export function ResultCard({
+  dish,
+  photo,
+  onReset,
+  onDishChanged,
+  initialIngredients = null,
+  initialHistory = null,
+  initialSaved = false,
+}: Props) {
+  const { user, signIn } = useAuth();
+  const [ingredients, setIngredients] = useState<string[] | null>(initialIngredients);
+  const [history, setHistory] = useState<string | null>(initialHistory);
+  const [saved, setSaved] = useState(initialSaved);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+  const [correctOpen, setCorrectOpen] = useState(false);
+  const [savePending, setSavePending] = useState(false);
+  const [saveHint, setSaveHint] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setIngredients(initialIngredients);
+    setHistory(initialHistory);
+    setSaved(initialSaved);
+    if (!dish.id) return;
+    if (initialIngredients && initialHistory) return;
+    setLoadingDetails(true);
+    fetchDish(dish.id).then((d) => {
+      if (cancelled || !d) {
+        setLoadingDetails(false);
+        return;
+      }
+      setIngredients(d.ingredients);
+      setHistory(d.history);
+      setSaved(d.saved);
+      setLoadingDetails(false);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [dish.id, initialIngredients, initialHistory, initialSaved]);
+
+  async function toggleSave() {
+    if (!user) {
+      setSaveHint("Sign in to save");
+      signIn();
+      return;
+    }
+    if (!dish.id || savePending) return;
+    setSavePending(true);
+    const prev = saved;
+    setSaved(!prev);
+    const ok = prev ? await unsaveDish(dish.id) : await saveDish(dish.id);
+    if (!ok) setSaved(prev);
+    setSavePending(false);
+  }
+
+  async function applyCorrection(name: string) {
+    setCorrectOpen(false);
+    setLoadingDetails(true);
+    const result: DishDetails | null = await correctDish(dish.name, name);
+    if (result && onDishChanged) {
+      onDishChanged(result.dish);
+      setIngredients(result.ingredients);
+      setHistory(result.history);
+      setSaved(false);
+    }
+    setLoadingDetails(false);
+  }
+
   return (
     <div className="flex flex-1 flex-col">
       <article className="overflow-hidden rounded-3xl bg-white shadow-[0_20px_50px_-24px_rgba(43,38,32,0.35)]">
@@ -13,9 +99,24 @@ export function ResultCard({ dish, photo, onReset }: Props) {
         )}
 
         <div className="px-6 pt-6 pb-7">
-          <h2 className="serif text-ink text-[30px] leading-tight">
-            {dish.name}
-          </h2>
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="serif text-ink text-[30px] leading-tight">
+              {dish.name}
+            </h2>
+            <button
+              type="button"
+              onClick={toggleSave}
+              aria-label={saved ? "Remove from saved" : "Save dish"}
+              className={`hover:bg-cream -mt-1 -mr-2 flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+                saved ? "text-terracotta" : "text-muted"
+              }`}
+            >
+              <HeartIcon filled={saved} />
+            </button>
+          </div>
+          {saveHint && !user && (
+            <p className="text-terracotta mt-1 text-[12px]">{saveHint}</p>
+          )}
 
           <div className="mt-3 flex flex-wrap gap-2">
             {dish.type && (
@@ -30,27 +131,54 @@ export function ResultCard({ dish, photo, onReset }: Props) {
             )}
           </div>
 
-          <p className="text-ink/85 mt-5 text-[16px] leading-relaxed">
-            {dish.description}
-          </p>
+          {dish.description && (
+            <p className="text-ink/85 mt-5 text-[16px] leading-relaxed">
+              {dish.description}
+            </p>
+          )}
 
-          <dl className="divide-muted/15 border-muted/15 mt-6 divide-y border-t">
-            <InfoRow
-              icon={<FlameIcon />}
-              label="Calories"
-              value={dish.calories ? `${dish.calories} kcal` : null}
-            />
-            <InfoRow
-              icon={<CoinIcon />}
-              label="Price (MYR)"
-              value={dish.priceMYR ?? null}
-            />
-            <InfoRow
-              icon={<LeafIcon />}
-              label="Ingredients"
-              value={dish.ingredients?.join(", ") ?? null}
-            />
-          </dl>
+          <button
+            type="button"
+            onClick={() => setCorrectOpen(true)}
+            className="text-muted hover:text-terracotta mt-3 text-[13px] underline-offset-2 hover:underline"
+          >
+            Not this? Correct it
+          </button>
+
+          <Section icon={<LeafIcon />} label="Ingredients">
+            {loadingDetails && !ingredients ? (
+              <SkeletonLines />
+            ) : ingredients && ingredients.length > 0 ? (
+              <ul className="text-ink mt-2 flex flex-wrap gap-1.5 text-[14px]">
+                {ingredients.map((ing) => (
+                  <li
+                    key={ing}
+                    className="bg-cream border-muted/15 rounded-full border px-3 py-1"
+                  >
+                    {ing}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-muted mt-1 text-[14px] italic">
+                Not available yet
+              </p>
+            )}
+          </Section>
+
+          <Section icon={<ScrollIcon />} label="History">
+            {loadingDetails && !history ? (
+              <SkeletonLines />
+            ) : history ? (
+              <p className="text-ink/85 mt-1 text-[15px] leading-relaxed">
+                {history}
+              </p>
+            ) : (
+              <p className="text-muted mt-1 text-[14px] italic">
+                Not available yet
+              </p>
+            )}
+          </Section>
         </div>
       </article>
 
@@ -61,69 +189,64 @@ export function ResultCard({ dish, photo, onReset }: Props) {
       >
         ← Try another
       </button>
+
+      {correctOpen && (
+        <CorrectDialog
+          originalName={dish.name}
+          onClose={() => setCorrectOpen(false)}
+          onSubmit={applyCorrection}
+        />
+      )}
     </div>
   );
 }
 
-function InfoRow({
+function Section({
   icon,
   label,
-  value,
+  children,
 }: {
   icon: React.ReactNode;
   label: string;
-  value: string | null;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-3 py-4">
-      <span className="text-olive mt-0.5">{icon}</span>
-      <div className="flex-1">
-        <dt className="text-muted text-[12px] font-medium tracking-wide uppercase">
+    <section className="border-muted/15 mt-6 border-t pt-5">
+      <div className="text-olive flex items-center gap-2">
+        {icon}
+        <h3 className="text-muted text-[12px] font-medium tracking-wide uppercase">
           {label}
-        </dt>
-        <dd
-          className={`mt-0.5 text-[15px] ${value ? "text-ink" : "text-muted italic"}`}
-        >
-          {value ?? "Not available yet"}
-        </dd>
+        </h3>
       </div>
+      {children}
+    </section>
+  );
+}
+
+function SkeletonLines() {
+  return (
+    <div className="mt-2 space-y-2">
+      <div className="bg-muted/15 h-3 w-11/12 animate-pulse rounded-full" />
+      <div className="bg-muted/15 h-3 w-9/12 animate-pulse rounded-full" />
+      <div className="bg-muted/15 h-3 w-10/12 animate-pulse rounded-full" />
     </div>
   );
 }
 
-function FlameIcon() {
+function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
-      fill="none"
+      fill={filled ? "currentColor" : "none"}
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M12 3c1 3 4 4.5 4 8a4 4 0 0 1-8 0c0-2 1-3 2-4-2 1-4 3-4 6a6 6 0 0 0 12 0c0-5-5-6-6-10Z" />
-    </svg>
-  );
-}
-
-function CoinIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="8" />
-      <path d="M9 10.5a2.5 2.5 0 0 1 5 0M9 13.5a2.5 2.5 0 0 0 5 0M12 8v8" />
+      <path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z" />
     </svg>
   );
 }
@@ -131,8 +254,8 @@ function CoinIcon() {
 function LeafIcon() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -143,6 +266,27 @@ function LeafIcon() {
     >
       <path d="M20 4c-8 0-14 4-14 12a6 6 0 0 0 6 6c8 0 10-6 10-12V4Z" />
       <path d="M6 22c2-6 6-10 12-12" />
+    </svg>
+  );
+}
+
+function ScrollIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v12a2 2 0 0 0 2 2H9a2 2 0 0 1-2-2V9H4Z" />
+      <path d="M7 9V6" />
+      <path d="M11 9h5" />
+      <path d="M11 13h5" />
     </svg>
   );
 }
